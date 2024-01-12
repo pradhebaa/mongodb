@@ -21,6 +21,7 @@ Terraform scripts are used to bring up the AWS resources. Following values has t
    
 ## Notes
  - Backend configuration should be updated with right S3 bucket name and terraform state file
+ - This code assumes AWS EC2 key pairs are already created 
 
 ## Backups
 In order to ensure the consistency of the data while taking backup, one of the mongo node, preferably a secondary node should be locked against writes and the ebs backup should be taken. In order to do that a lambda function is fired at specific time using cloudwatch events and ebs snapshots are taken and then the secondary node is unlocked. 

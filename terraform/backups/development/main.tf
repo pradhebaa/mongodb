@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 0.11.8"
 
   backend "s3" {
-    bucket = "cluster.kubernetes.ccdp.io"
+    bucket = "terraform-backup-bucket"
     region = "us-west-2"
     key    = "mongodb-clusters/backups/uswest2.development"
   }

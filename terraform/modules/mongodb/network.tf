@@ -3,12 +3,12 @@
 # ---------------------------------------------------------------------------------------------------------------------
 # security group for mongo hosts
 resource "aws_security_group" "host" {
-  name   = "cd-mongo-${var.environment}-${data.aws_region.current.name}-instanceSG"
+  name   = "mongo-${var.environment}-${data.aws_region.current.name}-instanceSG"
   vpc_id = "${var.vpc_id}"
 
   tags = {
     Environment = "${var.environment}"
-    Name        = "cd-mongo-${var.environment}-${data.aws_region.current.name}-instanceSG"
+    Name        = "mongo-${var.environment}-${data.aws_region.current.name}-instanceSG"
     Role        = "database"
     terraform   = "true"
   }

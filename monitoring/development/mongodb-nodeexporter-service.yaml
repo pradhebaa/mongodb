@@ -1,10 +1,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: cd-mongodb-nodeexporter
+  name: mongodb-nodeexporter
   namespace: monitoring
   labels:
-    k8s-app: cd-mongodb-nodeexporter
+    k8s-app: mongodb-nodeexporter
 spec:
   ports:
   - name: jmx

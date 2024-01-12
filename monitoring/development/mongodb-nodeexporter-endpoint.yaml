@@ -1,15 +1,16 @@
 apiVersion: v1
 kind: Endpoints
 metadata:
-  name: cd-mongodb-nodeexporter
+  name: mongodb-nodeexporter
   namespace: monitoring
   labels:
-    k8s-app: cd-mongodb-nodeexporter
+    k8s-app: mongodb-nodeexporter
 subsets:
+  # Add mongo instances IP
   - addresses:
-      - ip: 172.27.240.144 
-      - ip: 172.27.241.141
-      - ip: 172.27.242.19
+      - ip: <ip-1>
+      - ip: <ip-2>
+      - ip: <ip-3>
     ports:
       - name: jmx
         port: 9100

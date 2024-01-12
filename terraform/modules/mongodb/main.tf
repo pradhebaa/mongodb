@@ -54,7 +54,7 @@ data "aws_security_group" "selected" {
 
 
 resource "aws_iam_role" "mongo_role" {
-  name               = "cd-mongo-${var.environment}-${local.sregion}-InstanceRole"
+  name               = "mongo-${var.environment}-${local.sregion}-InstanceRole"
   assume_role_policy = "${data.aws_iam_policy_document.ec2.json}"
 }
 
@@ -65,7 +65,7 @@ resource "aws_iam_role_policy" "mongo_policy" {
 
 # IAM profile attached to the Mongo instances
 resource "aws_iam_instance_profile" "mongo_profile" {
-  name =  "cd-mongo-${var.environment}-${local.sregion}-InstanceProfile"
+  name =  "mongo-${var.environment}-${local.sregion}-InstanceProfile"
   role = "${aws_iam_role.mongo_role.name}"
 }
 
@@ -77,7 +77,7 @@ data "null_data_source" "mongodb_fqdn" {
   count = "${var.cluster_size}"
 
   inputs = {
-    hostname = "cd-mongo-${count.index}-${var.environment}.${var.dns_zone}"
+    hostname = "mongo-${count.index}-${var.environment}.${var.dns_zone}"
   }
 }
 
@@ -86,7 +86,7 @@ data "null_data_source" "mongodb_name" {
   count = "${var.cluster_size}"
 
   inputs = {
-    hostname = "cd-mongo-${count.index}-${var.environment}.${local.sregion}"
+    hostname = "mongo-${count.index}-${var.environment}.${local.sregion}"
 }
 }
 
@@ -136,7 +136,7 @@ resource "aws_launch_configuration" "mongo" {
 
 resource "aws_autoscaling_group" "mongo" {
   count                     = "${var.cluster_size}"
-  name                      = "cd-mongo-${count.index}-${var.environment}.${local.sregion}"
+  name                      = "mongo-${count.index}-${var.environment}.${local.sregion}"
   max_size                  = 1
   min_size                  = 1
   health_check_grace_period = 300
@@ -153,7 +153,7 @@ resource "aws_autoscaling_group" "mongo" {
 
   tag {
     key                 = "Name"
-    value               = "cd-mongo-${count.index}-${var.environment}.${local.sregion}"
+    value               = "mongo-${count.index}-${var.environment}.${local.sregion}"
     propagate_at_launch = true
   }
 

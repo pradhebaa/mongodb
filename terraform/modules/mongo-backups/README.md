@@ -17,8 +17,6 @@ To view your Lambda function's logs:
 2. Choose the log group for your function (/aws/lambda/function-name)
 3. Choose the first stream in the list.
    
-## Configuarion
-Configuration of lambda function is managed using terraform code
-
 ## Notes
-Sensitive variables `adminusername`,`adminpassword` and `webhookurl` required by the lambda function is proved as input using terraform environmental variables. 
+- Sensitive variables `adminusername`,`adminpassword` and `webhookurl` required by the lambda function is proved as input using terraform environmental variables. 
+- `lambda_backups.zip` is a pre-requisite (zip file containing necessary py modules) that needs to be created in order to run the lambda_backups.py script in AWS lambda
