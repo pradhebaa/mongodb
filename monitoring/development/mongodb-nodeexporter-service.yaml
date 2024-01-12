@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: cd-mongodb-nodeexporter
+  namespace: monitoring
+  labels:
+    k8s-app: cd-mongodb-nodeexporter
+spec:
+  ports:
+  - name: jmx
+    port: 9100
+    protocol: TCP
+    targetPort: 9100

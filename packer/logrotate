@@ -1,0 +1,11 @@
+ /log/mongod.log {
+ daiy
+ rotate 7
+ compress
+ missingok
+ sharedscripts
+ nodateext
+ postrotate
+   kill -USR1 $(cat /data/db/mongod.lock)
+ endscript
+}

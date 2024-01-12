@@ -1,0 +1,126 @@
+{
+  "min_packer_version": "0.12.0",
+  "builders": [
+    {
+    "ami_description":"An Amazon Linux AMI that has mongoDB installed",
+    "type": "amazon-ebs",
+    "profile":"default",
+    "ami_regions": ["eu-west-1"],
+    "region": "eu-west-1",
+    "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "architecture": "x86_64",
+          "name": "*amzn2-ami-hvm-*",
+          "block-device-mapping.volume-type": "gp2",
+          "root-device-type": "ebs"
+        },
+        "owners": ["amazon"],
+        "most_recent": true
+    },
+    "instance_type": "t2.medium",
+    "ssh_username": "ec2-user",
+    "ami_name": "mongo-amazon-linux2-{{isotime | clean_ami_name}}",
+    "vpc_id": "vpc-0161e376a2ee8230f",
+    "subnet_id":"subnet-0999d9a949ec8100f",
+    "associate_public_ip_address": true,
+    "encrypt_boot": true,
+    "launch_block_device_mappings": [
+                {
+                    "device_name": "/dev/sdf",
+                    "volume_type": "gp2",
+                    "volume_size": 100,
+                    "delete_on_termination": true
+                },
+                {
+                    "device_name": "/dev/sdg",
+                    "volume_type": "gp2",
+                    "volume_size": 20,
+                    "delete_on_termination": true
+                },
+                {
+                    "device_name": "/dev/sdh",
+                    "volume_type": "gp2",
+                    "volume_size": 10,
+                    "delete_on_termination": true
+                }
+                ],
+    "ami_block_device_mappings": [
+                {
+                    "device_name":   "/dev/sdf",
+                    "volume_type": "gp2",
+                    "volume_size": 100,
+                    "delete_on_termination": true
+                },
+                {
+                    "device_name":  "/dev/sdg",
+                    "volume_type": "gp2",
+                    "volume_size": 20,
+                    "delete_on_termination": true
+                },
+                {
+                    "device_name":  "/dev/sdh",
+                    "volume_type": "gp2",
+                    "volume_size": 10,
+                    "delete_on_termination": true
+                }
+              ],
+    "tags": {
+        "environment/development": "false",
+        "environment/staging": "false",
+        "environment/production": "true"
+    }
+      }
+  ],
+
+  "provisioners": [
+  {
+    "type": "shell",
+    "execute_command": "echo 'packer' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+    "script": "install_mongo.sh"
+  },
+  {
+    "type": "shell",
+    "execute_command": "echo 'packer' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+    "script": "partision_disk.sh"
+  },
+  {
+    "type": "shell",
+    "execute_command": "echo 'packer' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+    "script": "set_limits.sh"
+  },
+  {
+    "type": "file",
+    "source": "disable-transparent-hugepages",
+    "destination": "/tmp/disable-transparent-hugepages"
+  },
+  {
+    "type": "file",
+    "source": "logrotate",
+    "destination": "/tmp/mongod"
+  },
+  {
+    "type": "shell",
+    "execute_command": "echo 'packer' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+    "script": "configure.sh"
+  },
+  {
+    "type": "shell",
+    "execute_command": "echo 'packer' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+    "script": "update_mongoconf.sh"
+  },
+  {
+    "type": "shell",
+    "inline": [
+      "sudo systemctl start mongod"
+  ]
+  },
+  {
+    "type": "shell",
+    "execute_command": "echo 'packer' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+    "script": "exporter.sh"
+  }
+ ]
+}
+
+

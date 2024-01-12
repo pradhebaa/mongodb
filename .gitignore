@@ -1,0 +1,8 @@
+# Ignore temporary files, build results 
+**/.terraform/*
+*.tfstate*
+*tfplan.out*
+**/*.tfstate/*
+
+
+.DS_Store
