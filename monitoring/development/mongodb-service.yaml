@@ -1,10 +1,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: cd-mongodb
+  name: mongodb
   namespace: monitoring
   labels:
-    k8s-app: cd-mongodb
+    k8s-app: mongodb
 spec:
   ports:
   - name: jmx

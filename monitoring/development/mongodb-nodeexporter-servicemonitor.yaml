@@ -1,16 +1,16 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: cd-mongodb-nodeexporter
+  name: mongodb-nodeexporter
   namespace: monitoring
   labels:
-    k8s-app: cd-mongodb-nodeexporter
+    k8s-app: mongodb-nodeexporter
     release: prometheus-operator
 spec:
   scrapeTimeout: 120s
   selector:
     matchLabels:
-      k8s-app: cd-mongodb-nodeexporter
+      k8s-app: mongodb-nodeexporter
   namespaceSelector:
     matchNames:
     - monitoring
